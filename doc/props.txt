@@ -1,0 +1,90 @@
+struct CUSettings : public MinerSettings
+{
+    unsigned streams = 2;
+    unsigned schedule = 4;
+    unsigned gridSize = 8192;
+    unsigned blockSize = 128;
+};
+
+props
+{...}
+name:
+uuid:
+luid:
+luidDeviceNodeMask: 0
+totalGlobalMem: 6373572608
+sharedMemPerBlock: 49152
+regsPerBlock: 65536
+warpSize: 32
+memPitch: 2147483647
+maxThreadsPerBlock: 1024
+maxThreadsDim:
+maxGridSize:
+clockRate: 1708500
+totalConstMem: 65536
+major: 6
+minor: 1
+textureAlignment: 512
+texturePitchAlignment: 32
+deviceOverlap: 1
+multiProcessorCount: 10
+kernelExecTimeoutEnabled: 1
+integrated: 0
+canMapHostMemory: 1
+computeMode: 0
+maxTexture1D: 131072
+maxTexture1DMipmap: 16384
+maxTexture1DLinear: 268435456
+maxTexture2D:
+maxTexture2DMipmap:
+maxTexture2DLinear:
+maxTexture2DGather:
+maxTexture3D:
+maxTexture3DAlt:
+maxTextureCubemap: 32768
+maxTexture1DLayered:
+maxTexture2DLayered:
+maxTextureCubemapLayered:
+maxSurface1D: 32768
+maxSurface2D:
+maxSurface3D:
+maxSurface1DLayered:
+maxSurface2DLayered:
+maxSurfaceCubemap: 32768
+maxSurfaceCubemapLayered:
+surfaceAlignment: 512
+concurrentKernels: 1
+ECCEnabled: 0
+pciBusID: 13
+pciDeviceID: 0
+pciDomainID: 0
+tccDriver: 0
+asyncEngineCount: 2
+unifiedAddressing: 1
+memoryClockRate: 4004000
+memoryBusWidth: 192
+l2CacheSize: 1572864
+persistingL2CacheMaxSize: 0
+maxThreadsPerMultiProcessor: 2048
+streamPrioritiesSupported: 1
+globalL1CacheSupported: 1
+localL1CacheSupported: 1
+sharedMemPerMultiprocessor: 98304
+regsPerMultiprocessor: 65536
+managedMemory: 1
+isMultiGpuBoard: 0
+multiGpuBoardGroupID: 0
+hostNativeAtomicSupported: 0
+singleToDoublePrecisionPerfRatio: 32
+pageableMemoryAccess: 0
+concurrentManagedAccess: 1
+computePreemptionSupported: 1
+canUseHostPointerForRegisteredMem: 1
+cooperativeLaunch: 1
+cooperativeMultiDeviceLaunch: 1
+sharedMemPerBlockOptin: 49152
+pageableMemoryAccessUsesHostPageTables: 0
+directManagedMemAccessFromHost: 0
+maxBlocksPerMultiProcessor: 32
+accessPolicyMaxWindowSize: 0
+reservedSharedMemPerBlock: 0
