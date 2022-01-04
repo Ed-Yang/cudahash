@@ -87,6 +87,5 @@ build_dir.*
 ethash.xclbin
 *.csv
 *.run_summary
-ethash/
 ./build
 expr/build

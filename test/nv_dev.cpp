@@ -81,22 +81,22 @@ bool NvDev::getDevicInfo(int devId, NvDevInfo& nvInfo)
     return true;
 }
 
-int NvDev::enumDevices(NvDevInfo nvInfo[]) 
+std::vector<NvDevInfo> NvDev::enumDevices() 
 {
     int count=0;
-    bool result;
+    std::vector<NvDevInfo> devices={};
 
     int numDevices(getNumDevices());
 
     for (int i = 0; i < numDevices; i++) {
-        result = getDevicInfo(i, nvInfo[i]);
-        if (result)
-            count++;
+        NvDevInfo devInfo;
+        if (getDevicInfo(i, devInfo))
+            devices.push_back(devInfo);
         else
             break;
     }
 
-    return count;
+    return devices;
 }
 
 bool NvDev::set_epoch_ctx(struct EpochContexts ctx)

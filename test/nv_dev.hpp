@@ -59,7 +59,7 @@ public:
     NvDev(int devId) ;
     ~NvDev() {}
     int getNumDevices();
-    int enumDevices(NvDevInfo nvInfo[]);
+    std::vector<NvDevInfo> enumDevices();
     bool getDevicInfo(int devId, NvDevInfo& nvInfo);
     int getDeviceId() {
         return m_devId;

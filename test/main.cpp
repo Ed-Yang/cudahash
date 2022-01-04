@@ -103,8 +103,12 @@ int main(int argc, char **argv)
     }
 
     NvDev nv_dev;
-    int count= nv_dev.getNumDevices();
-    std::cout << "Number of Cuda devices founds: " << count << std::endl;
+    std::vector<NvDevInfo> devInfos = nv_dev.enumDevices();
+    std::cout << "\nNumber of Cuda devices founds: " << devInfos.size() << std::endl;
+    for (auto d: devInfos) {
+        printf("  Device ID: %02d - %s\n", d.cuDeviceIndex, d.boardName.c_str());
+    }
+    printf("\n");
 
     // EthTester tester;
     EthTester tester(epoch);
