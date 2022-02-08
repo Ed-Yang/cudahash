@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+// https://stackoverflow.com/questions/46345811/cuda-9-shfl-vs-shfl-sync
+
 __global__
 static void shflTest(int lid){
     int tid = threadIdx.x;
