@@ -14,6 +14,7 @@
 using namespace std;
 
 #define MAX_STREAMS 4
+#define CU_BLOCK_SIZE 128
 
 typedef struct test_result {
     int devId;
@@ -66,9 +67,10 @@ public:
     }
     bool set_epoch_ctx(struct EpochContexts ctx);
     bool gen_dag();
-    void set_search_params(int streams, int block_multiple) {
+    void set_search_params(int streams, uint32_t block_multiple, uint32_t block_size) {
         cuStreamSize = streams;
         m_block_multiple = block_multiple;
+        cuBlockSize = block_size;
     }
     std::vector<test_result_t> search(void *header, uint64_t target, uint64_t start_nonce);
     void stop() {
@@ -84,12 +86,15 @@ protected:
     cudaStream_t m_streams[MAX_STREAMS];
     unsigned cuStreamSize = 2;
     unsigned m_block_multiple = 1000;
-    unsigned cuBlockSize = 128;
+    unsigned cuBlockSize = CU_BLOCK_SIZE;
 
     uint64_t m_current_target;
     
     volatile bool m_done = true;
-    // std::mutex m_doneMutex;
+
+#if 0 // FIXME: error: use of deleted function ... mutex& operator=(const mutex&) = delete
+    std::mutex m_doneMutex;
+#endif
 
     volatile bool m_stop = false;
 };

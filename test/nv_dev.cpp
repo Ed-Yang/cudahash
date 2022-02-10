@@ -64,7 +64,7 @@ bool NvDev::getDevicInfo(int devId, NvDevInfo& nvInfo)
     nvInfo.cuCompute = (to_string(props.major) + "." + to_string(props.minor));
     nvInfo.maxThreadsPerBlock = props.maxThreadsPerBlock;
     nvInfo.computeMode = props.computeMode;
-    nvInfo.cuBlockSize = 128;
+    nvInfo.cuBlockSize = CU_BLOCK_SIZE;
     nvInfo.cuStreamSize = 2;
     
     // mem
@@ -147,7 +147,11 @@ bool NvDev::gen_dag()
 
     set_constants(dag, m_ctx.dagNumItems, (hash64_t *)light, m_ctx.lightNumItems); // in ethash_cuda_miner_kernel.cu
 
+#if 1  // seperate search, dag params
+    ethash_generate_dag(m_ctx.dagSize, 1000, 128, m_streams[0]);
+#else
     ethash_generate_dag(m_ctx.dagSize, m_block_multiple, cuBlockSize, m_streams[0]);
+#endif
 
     std::cout << "dag generated." << std::endl;
 
@@ -163,6 +167,7 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
     std::cout << "dev: start nonce = " << start_nonce << std::endl;
     std::cout << "dev: streams = " << cuStreamSize << std::endl;
     std::cout << "dev: m_block_multiple = " << m_block_multiple << std::endl;
+    std::cout << "dev: block_size = " << cuBlockSize << std::endl;
     // CUDA_CALL(cudaSetDevice(m_devId));
 
     auto t_start = high_resolution_clock::now();
@@ -176,7 +181,10 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
     uint32_t batch_blocks(m_block_multiple * cuBlockSize);
     uint32_t stream_blocks(batch_blocks * cuStreamSize);
 
-    // m_doneMutex.lock();
+#if 0 // FIXME: error: use of deleted function ... mutex& operator=(const mutex&) = delete
+    m_doneMutex.lock();
+#endif
+
     // prime each stream, clear search result buffers and start the search
     for (uint32_t streamIdx = 0; streamIdx < cuStreamSize;
          streamIdx++, start_nonce += batch_blocks) {
@@ -186,7 +194,11 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
                           m_search_buf[streamIdx], start_nonce);
     }
     m_done = false;
-    // m_doneMutex.unlock();
+
+
+#if 0 // FIXME: error: use of deleted function ... mutex& operator=(const mutex&) = delete
+    m_doneMutex.unlock();
+#endif
 
     uint32_t streams_bsy((1 << cuStreamSize) - 1);
 
@@ -220,6 +232,7 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
             // clear solution count, hash count and done
             HostToDevice(buffer, zero3, sizeof(zero3));
 
+#if 0 // NEW: move down re-search
             if (m_done)
                 streams_bsy &= ~stream_mask;
             else {
@@ -227,6 +240,7 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
                 run_ethash_search(m_block_multiple, cuBlockSize, stream, (Search_results*)buffer,
                                   start_nonce);
             }
+#endif
 
             if (r.solCount > MAX_SEARCH_RESULTS)
                 r.solCount = MAX_SEARCH_RESULTS;
@@ -245,12 +259,26 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
                 auto t_end = high_resolution_clock::now();
                 res.duration = double(duration_cast<milliseconds>(t_end - t_start).count());
                 test_results.push_back(res);
-                printf("search found nonce: %lu, took %6.2f ms\n", nonce, res.duration);
+                printf("search: nonce = start_nonce(%lu) - stream_blocks(%u) + r.gid[i](%u)\n", 
+                    start_nonce, stream_blocks, r.gid[i]);
+                printf("search: found nonce = %lu, took %6.2f ms\n", nonce, res.duration);
                 m_done = true;
             }
 
+#if 1 // NEW: move down re-search
+            if (m_done)
+                streams_bsy &= ~stream_mask;
+            else {
+                // m_hung_miner.store(false);
+                run_ethash_search(m_block_multiple, cuBlockSize, stream, (Search_results*)buffer,
+                                  start_nonce);
+            }
+#endif
+
             if (shouldStop()) {
-                // unique_lock<mutex> l(m_doneMutex);
+#if 0 // FIXME: error: use of deleted function ... mutex& operator=(const mutex&) = delete
+                unique_lock<mutex> l(m_doneMutex);
+#endif
                 std::cout << "stop." << std::endl;
                 m_done = true;
             }

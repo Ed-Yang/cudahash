@@ -9,7 +9,10 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/cudahash",
-            "args": [],
+            "args": [
+                // "-n",
+                // "18393042511533851884",
+            ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
