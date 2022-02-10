@@ -61,6 +61,7 @@ the DAG generation use fixed value (-m 1000 -b 128).
 $ ./build/cudahash 
 ```
 
+```shell
 Number of Cuda devices founds: 1
   Device ID: 00 - GeForce GTX 1060 6GB
 
@@ -79,11 +80,21 @@ search: found nonce = 18393042511533851884, took 8326.00 ms
 dev st m_blks idx found nonce          time (ms)
 === == ====== === ==================== ========
   0  2   1000   0 18393042511533851884  8326.00
+```
 
 * Run for all streams/block-multiple combination
 
 ```shell
 $ ./build/cudahash -a
+```
+
+```shell
+
+Number of Cuda devices founds: 1
+  Device ID: 00 - GeForce GTX 1060 6GB
+
+....
+....
 ....
 
 dev st m_blks idx found nonce          time (ms)
@@ -104,6 +115,7 @@ dev st m_blks idx found nonce          time (ms)
   0  2   2048   0 18393042511533851884  8323.00
   0  3   2048   2 18393042511533851884  8323.00
   0  4   2048   0 18393042511533851884  8323.00
+```
 
 * Run with verbose message enabled
 
@@ -135,6 +147,7 @@ ethash_calculate_dag_item<<<gridSize, blockSize, 0, stream>>>(base)
 
 * Search
 
+```shell
 gridSize = m_block_multiple (default: 1000)
 blockSize = cuBlockSize = 128
 
@@ -142,3 +155,4 @@ run_ethash_search(gridSize, blockSize, stream, g_output, start_nonce)
     ethash_search<<<gridSize, blockSize, 0, stream>>>(g_output, start_nonce);
         uint32_t const gid = blockIdx.x * blockDim.x + threadIdx.x;
         bool r = compute_hash(start_nonce + gid);
+```
