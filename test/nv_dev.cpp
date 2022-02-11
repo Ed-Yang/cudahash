@@ -263,7 +263,7 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
                 test_results.push_back(res);
                 printf("search: nonce = start_nonce(%lu) - stream_blocks(%u) + r.gid[i](%u)\n", 
                     start_nonce, stream_blocks, r.gid[i]);
-                printf("search: found nonce = %lu, took %6.2f ms, calc-nonces=%u\n", 
+                printf("search: found nonce = %lu, took %.2f ms, calc-nonces=%u\n", 
                     nonce, res.duration, res.hashCount);
                 m_done = true;
             }
@@ -289,7 +289,10 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
     }
 
     if (test_results.size() <=0) {
-        printf("search: no sol found, calc-nonces=%u\n", batchCount);
+        auto t_end = high_resolution_clock::now();
+        double duration = double(duration_cast<microseconds>(t_end - t_start).count())/1000;
+
+        printf("search: no sol found, took %7.2f ms, calc-nonces=%u\n", duration, batchCount);
     }
 
     return test_results;
