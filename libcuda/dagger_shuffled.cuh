@@ -122,6 +122,16 @@ DEV_INLINE bool compute_hash(uint64_t nonce) {
         }
     }
 
+#if 0
+    printf("%02d %u:%u %u:%u %u:%u %u:%u\n",
+        threadIdx.x, 
+        state[8].x, state[8].y,
+        state[9].x, state[9].y,
+        state[10].x, state[10].y,
+        state[11].x, state[11].y
+        );
+#endif
+
     // keccak_256(keccak_512(header..nonce) .. mix);
     if (cuda_swab64(keccak_f1600_final(state)) > d_target)
         return true;

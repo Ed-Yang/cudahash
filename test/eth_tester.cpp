@@ -116,3 +116,17 @@ std::vector<test_result_t> EthTester::search(int devId, void *hdr_hash, uint64_t
     }
     return results;
 }
+
+bool EthTester::stop(int devId)
+{
+    vector<NvDev>::iterator it = get_nv_dev(devId);
+
+    if (it == m_devices.end()) {
+        std::cout << "stop: no device " << devId << std::endl;
+        return false;
+    }
+
+    it->stop();
+
+    return true;
+}

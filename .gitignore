@@ -90,3 +90,4 @@ ethash.xclbin
 ./build
 expr/build
 expr/t419
+expr/shuffle

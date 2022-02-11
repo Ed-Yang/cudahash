@@ -18,6 +18,7 @@ public:
     bool gen_dag(int devId);
     std::vector<test_result_t> search(int devId, void *hdr_hash, uint64_t target, uint64_t start_nonce);
     bool is_dev_existed(int devId);
+    bool stop(int devId);
     vector<NvDev>::iterator get_nv_dev(int devId);
 protected:
     struct EpochContexts m_ctx;

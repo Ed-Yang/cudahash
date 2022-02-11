@@ -29,7 +29,7 @@ uint64_t target = 0x0000000fffffffff;
 #endif
 
 std::vector<test_result_t> run_test(EthTester& tester, int devId, uint64_t start_nonce, 
-    int num_streams, uint32_t block_multiple, uint32_t block_size)
+    int num_streams, uint32_t block_multiple, uint32_t block_size, bool run_once)
 {
     int epoch = 41;
     const uint8_t *hhash_str = (const uint8_t *)"f5afa3074287b2b33e975468ae613e023e478112530bc19d4187693c13943445";
@@ -47,6 +47,9 @@ std::vector<test_result_t> run_test(EthTester& tester, int devId, uint64_t start
     bool rv = tester.gen_dag(devId);
 
     hex2bin(hhash_str, hhash.bytes);
+    if (run_once) {
+        tester.stop(devId);
+    }
     std::vector<test_result_t> results = tester.search(devId, hhash.bytes, target, start_nonce);
 
     return results;
@@ -60,6 +63,7 @@ void usage(char **argv)
     printf("    -m <mblks> : <mblks> that is grid size, default is 1000\n");
     printf("    -b <blk-size> : <blk-size> block size, default is 128 (must be multiple of 8)\n");
     printf("    -n <start-nonce>: <start-nonce> default is 18393042511399634156\n");
+    printf("    -o run only one round\n");
     printf("    -a: run all <cuda-streams> and <blks> combinations\n");
 }
 
@@ -74,17 +78,21 @@ int main(int argc, char **argv)
     int num_streams = 2;
     uint32_t block_multiple = 1000;
     uint32_t block_size = CU_BLOCK_SIZE;
+    bool run_once = false;
     bool run_all = false;
 
     opterr = 0;
     start_nonce -= (128 * 1024 * 1024);
 
-    while ((c = getopt(argc, argv, "ad:s:n:m:b:h?")) != -1)
+    while ((c = getopt(argc, argv, "ad:s:n:m:b:oh?")) != -1)
     {
         switch (c)
         {
         case 'a':
             run_all = true;
+            break; 
+        case 'o':
+            run_once = true;
             break;   
         case 'd':
             devId = atoi(optarg);
@@ -134,18 +142,18 @@ int main(int argc, char **argv)
 
     std::vector<test_result_t> results;
     if (run_all) {
-        std::vector<int> streams = {1, 2, 3, 4};
+        std::vector<int> streams = {1, 2, 4};
         std::vector<int> mblksizes = {128, 512, 1024, 2048};
 
         for (auto st : streams) {
             for (auto mblk : mblksizes) {
-                auto r = run_test(tester, devId, start_nonce, st, mblk, block_size);
+                auto r = run_test(tester, devId, start_nonce, st, mblk, block_size, run_once);
                 results.insert( results.end(), r.begin(), r.end() );
             }
         }
     }
     else {
-        results = run_test(tester, devId, start_nonce, num_streams, block_multiple, block_size);
+        results = run_test(tester, devId, start_nonce, num_streams, block_multiple, block_size, run_once);
     }
 
     std::sort(results.begin(), results.end(), 
@@ -154,12 +162,14 @@ int main(int argc, char **argv)
         return a.duration > b.duration; 
     });
 
-    printf("dev st m_blks idx found nonce          time (ms)\n");
-    printf("=== == ====== === ==================== ========\n");
+    // printf("dev st m_blks idx found nonce          time(ms) calc-nonces\n");
+    printf("dev st m_blks idx found nonce          time(ms) rate(Mhz)\n");
+    printf("=== == ====== === ==================== ======== =========\n");
 
     for (auto it : results) {
-        printf("%3d %2d %6d %3d %20lu %8.2f\n",
-            it.devId, it.streams, it.block_multiple, it.streamIdx, it.nonce, it.duration);
+        printf("%3d %2d %6d %3d %20lu %8.2f %5.2f\n",
+            it.devId, it.streams, it.block_multiple, it.streamIdx, 
+            it.nonce, it.duration, it.hashCount/(it.duration*1000));
     }
 
     return 0;

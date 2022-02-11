@@ -1,4 +1,4 @@
-$ ./cudahash -n 18393042511533851884 -m 1 -s 1 -b 8
+$ ./cudahash -n 18393042511533851884 -m 1 -s 1 -b 8 -o
 
 Number of Cuda devices founds: 1
   Device ID: 00 - GeForce GTX 1060 6GB

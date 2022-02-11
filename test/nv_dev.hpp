@@ -22,12 +22,14 @@ typedef struct test_result {
     int epoch;
     int streams;
     int block_multiple;
+    int block_size;
     // return results
     int streamIdx;
     uint64_t nonce;
     ethash::hash256 mix_hash;
     ethash::hash256 final_hash;
     float duration;
+    uint32_t hashCount;
 } test_result_t;
 
 typedef struct {

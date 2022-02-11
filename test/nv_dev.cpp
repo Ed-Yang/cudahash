@@ -204,13 +204,14 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
 
     // process stream batches until we get new work.
 
+    uint32_t batchCount(0);
+
     while (streams_bsy) {
         // if (paused()) {
         //     unique_lock<mutex> l(m_doneMutex);
         //     m_done = true;
         // }
 
-        uint32_t batchCount(0);
 
         // This inner loop will process each cuda stream individually
         for (uint32_t streamIdx = 0; streamIdx < cuStreamSize;
@@ -256,12 +257,22 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
                 res.epoch = m_ctx.epochNumber;
                 res.nonce = nonce;
                 res.streamIdx = streamIdx;
+                res.hashCount = batchCount * cuBlockSize; // hashCount only count first thread
                 auto t_end = high_resolution_clock::now();
-                res.duration = double(duration_cast<milliseconds>(t_end - t_start).count());
+                res.duration = double(duration_cast<microseconds>(t_end - t_start).count())/1000;
                 test_results.push_back(res);
                 printf("search: nonce = start_nonce(%lu) - stream_blocks(%u) + r.gid[i](%u)\n", 
                     start_nonce, stream_blocks, r.gid[i]);
-                printf("search: found nonce = %lu, took %6.2f ms\n", nonce, res.duration);
+                printf("search: found nonce = %lu, took %6.2f ms, calc-nonces=%u\n", 
+                    nonce, res.duration, res.hashCount);
+                m_done = true;
+            }
+
+            if (shouldStop()) {
+#if 0 // FIXME: error: use of deleted function ... mutex& operator=(const mutex&) = delete
+                unique_lock<mutex> l(m_doneMutex);
+#endif
+                std::cout << "stop." << std::endl;
                 m_done = true;
             }
 
@@ -274,15 +285,11 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
                                   start_nonce);
             }
 #endif
-
-            if (shouldStop()) {
-#if 0 // FIXME: error: use of deleted function ... mutex& operator=(const mutex&) = delete
-                unique_lock<mutex> l(m_doneMutex);
-#endif
-                std::cout << "stop." << std::endl;
-                m_done = true;
-            }
         }
+    }
+
+    if (test_results.size() <=0) {
+        printf("search: no sol found, calc-nonces=%u\n", batchCount);
     }
 
     return test_results;
