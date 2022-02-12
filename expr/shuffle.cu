@@ -67,30 +67,41 @@ static void test_sync_1()
 __global__
 static void test_sync_2()
 {
-    uint2 state[12] = {0};
+    uint2 state[12+4] = {0};
+
+    const int thread_id = threadIdx.x & (THREADS_PER_HASH - 1);
 
     for (int i = 0; i < THREADS_PER_HASH; i += _PARALLEL_HASH) {
         uint32_t mix[_PARALLEL_HASH];
-
         for (int p = 0; p < _PARALLEL_HASH; p++) {
             mix[p] = i * 100 + threadIdx.x * 10 + p;
         }
 
+        // printf("%02d i=%d mix %u:%u:%u:%u\n", threadIdx.x, i, 
+        //     mix[0], mix[1], mix[2], mix[3]);
+
         for (int p = 0; p < _PARALLEL_HASH; p++) {
+            uint2 shuffle[4];
             uint32_t thread_mix = fnv_reduce(mix[p]);
 
-            uint8_t ipmask = 0x01 << (i + p);
+            // printf("%02d i=%d thread_mix %u\n", threadIdx.x, i, 
+            //     thread_mix);
 
             // update mix across threads
-            state[8].x = __shfl_sync(ipmask, thread_mix, 0, THREADS_PER_HASH);
-            state[8].y = __shfl_sync(ipmask, thread_mix, 1, THREADS_PER_HASH);
-            state[9].x = __shfl_sync(ipmask, thread_mix, 2, THREADS_PER_HASH);
-            state[9].y = __shfl_sync(ipmask, thread_mix, 3, THREADS_PER_HASH);
-            state[10].x = __shfl_sync(ipmask, thread_mix, 4, THREADS_PER_HASH);
-            state[10].y = __shfl_sync(ipmask, thread_mix, 5, THREADS_PER_HASH);
-            state[11].x = __shfl_sync(ipmask, thread_mix, 6, THREADS_PER_HASH);
-            state[11].y = __shfl_sync(ipmask, thread_mix, 7, THREADS_PER_HASH);
+            shuffle[0].x = SHFL(thread_mix, 0, THREADS_PER_HASH);
+            shuffle[0].y = SHFL(thread_mix, 1, THREADS_PER_HASH);
+            shuffle[1].x = SHFL(thread_mix, 2, THREADS_PER_HASH);
+            shuffle[1].y = SHFL(thread_mix, 3, THREADS_PER_HASH);
+            shuffle[2].x = SHFL(thread_mix, 4, THREADS_PER_HASH);
+            shuffle[2].y = SHFL(thread_mix, 5, THREADS_PER_HASH);
+            shuffle[3].x = SHFL(thread_mix, 6, THREADS_PER_HASH);
+            shuffle[3].y = SHFL(thread_mix, 7, THREADS_PER_HASH);
 
+            uint32_t idx = ((i + p) == thread_id) ? 8:12; // use this will further slow down
+            state[idx+0] = shuffle[0];
+            state[idx+1] = shuffle[1];
+            state[idx+2] = shuffle[2];
+            state[idx+3] = shuffle[3];
         }
     }
     printf("%02d %u:%u %u:%u %u:%u %u:%u\n",
