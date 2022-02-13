@@ -98,10 +98,10 @@ static void test_sync_2()
             shuffle[3].y = SHFL(thread_mix, 7, THREADS_PER_HASH);
 
 #if 1 // no conditional
+            uint32_t idx = 8 + ((bool)((i + p) ^ thread_id) << 2);
+#else
             uint32_t v = (i + p) ^ thread_id;
             uint32_t idx = 8 + (v >> (32 - __clz(v)) - 1) * 4;
-#else
-            uint32_t idx = ((i + p) == thread_id) ? 8:12; // use this will further slow down
 #endif
             // printf("%02d %u %u %u\n", thread_id, i, p, idx);
             state[idx+0] = shuffle[0];
