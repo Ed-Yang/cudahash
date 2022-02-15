@@ -23,7 +23,9 @@
 #define MAX_SEARCH_RESULTS 4U
 struct Search_results {
     uint32_t solCount;
+#ifdef CALC_HASH
     uint32_t hashCount;
+#endif
     volatile uint32_t done;
     uint32_t gid[MAX_SEARCH_RESULTS];
 };

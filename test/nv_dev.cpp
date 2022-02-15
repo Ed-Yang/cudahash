@@ -245,7 +245,11 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
 
             if (r.solCount > MAX_SEARCH_RESULTS)
                 r.solCount = MAX_SEARCH_RESULTS;
+#ifdef CALC_HASH
             batchCount += r.hashCount;
+#else
+            batchCount += m_block_multiple;
+#endif
 
             for (uint32_t i = 0; i < r.solCount; i++) {
                 uint64_t nonce(start_nonce - stream_blocks + r.gid[i]);
@@ -257,14 +261,14 @@ std::vector<test_result_t> NvDev::search(void *header, uint64_t target, uint64_t
                 res.epoch = m_ctx.epochNumber;
                 res.nonce = nonce;
                 res.streamIdx = streamIdx;
-                res.hashCount = batchCount * cuBlockSize; // hashCount only count first thread
+                res.total_hashs = batchCount * cuBlockSize; // hashCount only count first thread
                 auto t_end = high_resolution_clock::now();
                 res.duration = double(duration_cast<microseconds>(t_end - t_start).count())/1000;
                 test_results.push_back(res);
                 printf("search: nonce = start_nonce(%lu) - stream_blocks(%u) + r.gid[i](%u)\n", 
                     start_nonce, stream_blocks, r.gid[i]);
                 printf("search: found nonce = %lu, took %.2f ms, calc-nonces=%u\n", 
-                    nonce, res.duration, res.hashCount);
+                    nonce, res.duration, res.total_hashs);
                 m_done = true;
             }
 

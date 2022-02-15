@@ -132,6 +132,7 @@ static void test_sync_3(unsigned int mask)
 }
 
 // /usr/local/cuda/bin/nvcc -arch=sm_61 -o shuffle shuffle.cu
+// /usr/local/cuda/bin/nvcc -arch=sm_61 -ptx -o shuffle.ptx shuffle.cu
 // /usr/local/cuda/bin/cuda-memcheck ./shuffle
 int main()
 {

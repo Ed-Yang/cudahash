@@ -29,8 +29,10 @@ __global__ void ethash_search(Search_results* g_output, uint64_t start_nonce) {
         return;
     uint32_t const gid = blockIdx.x * blockDim.x + threadIdx.x;
     bool r = compute_hash(start_nonce + gid);
+#ifdef CALC_HASH
     if (threadIdx.x == 0)
-        atomicInc((uint32_t*)&g_output->hashCount, 0xffffffff);
+        atomicInc((uint32_t*)&g_output->hashCount, 0xffffffff); // increment up to value, then reset to 0  
+#endif
     if (r)
         return;
     uint32_t index = atomicInc((uint32_t*)&g_output->solCount, 0xffffffff);

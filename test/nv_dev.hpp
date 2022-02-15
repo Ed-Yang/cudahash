@@ -29,7 +29,7 @@ typedef struct test_result {
     ethash::hash256 mix_hash;
     ethash::hash256 final_hash;
     float duration;
-    uint32_t hashCount;
+    uint32_t total_hashs;
 } test_result_t;
 
 typedef struct {

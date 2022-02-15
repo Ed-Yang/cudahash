@@ -169,7 +169,7 @@ int main(int argc, char **argv)
     for (auto it : results) {
         printf("%3d %2d %6d %3d %20lu %8.2f %5.2f\n",
             it.devId, it.streams, it.block_multiple, it.streamIdx, 
-            it.nonce, it.duration, it.hashCount/(it.duration*1000));
+            it.nonce, it.duration, it.total_hashs/(it.duration*1000));
     }
 
     return 0;
