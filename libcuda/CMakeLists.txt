@@ -19,6 +19,14 @@ list(APPEND CUDA_NVCC_FLAGS_DEBUG -O3)
 
 if(COMPUTE AND (COMPUTE GREATER 0))
 	list(APPEND CUDA_NVCC_FLAGS "-gencode arch=compute_${COMPUTE},code=sm_${COMPUTE}")
+
+    cuda_compile_ptx(
+        cuda_ptx_files
+        ethash_cuda_miner_kernel.cu
+    )
+    add_custom_target(ptx ALL
+        DEPENDS ${cuda_ptx_files} ethash_cuda_miner_kernel.cu
+        SOURCES ethash_cuda_miner_kernel.cu)
 else()
 	# Maxwell
 	list(APPEND CUDA_NVCC_FLAGS "-gencode arch=compute_50,code=sm_50")

@@ -132,7 +132,8 @@ int main(int argc, char **argv)
     std::vector<NvDevInfo> devInfos = nv_dev.enumDevices();
     std::cout << "\nNumber of Cuda devices founds: " << devInfos.size() << std::endl;
     for (auto d: devInfos) {
-        printf("  Device ID: %02d - %s\n", d.cuDeviceIndex, d.boardName.c_str());
+        printf("  Device ID: %02d - %s, compute(%s)\n", 
+            d.cuDeviceIndex, d.boardName.c_str(), d.cuCompute.c_str());
     }
     printf("\n");
 

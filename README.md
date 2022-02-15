@@ -37,6 +37,20 @@ mkdir -p build && cd build && cmake .. && make
 mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug && make
 ```
 
+* Build program with Cuda PTX
+
+It have to find the comupte version of the card, and pass it to cmake command.
+
+For example, the P106 is belonged to compute 6.1.
+
+```shell
+cmake .. -DCOMPUTE=61 -DCMAKE_BUILD_TYPE=Debug && make
+```
+
+Note, specify the COMPUTE will build cuda library for a specific card, so the binary
+cannot be used with other cards.
+
+
 ## Run
 
 * Usage
