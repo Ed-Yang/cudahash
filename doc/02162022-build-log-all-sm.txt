@@ -1,0 +1,111 @@
+$ make
+[ 12%] Building NVCC (Device) object libcuda/CMakeFiles/cuda.dir/cuda_generated_ethash_cuda_miner_kernel.cu.o
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_50'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 132 registers, 324 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_50'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 80 registers, 336 bytes cmem[0]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_52'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 132 registers, 324 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_52'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 80 registers, 336 bytes cmem[0]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_53'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 132 registers, 324 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_53'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 80 registers, 336 bytes cmem[0]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_60'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 123 registers, 324 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_60'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 80 registers, 336 bytes cmem[0]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_61'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 132 registers, 324 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_61'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 80 registers, 336 bytes cmem[0]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_62'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 132 registers, 324 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_62'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 80 registers, 336 bytes cmem[0]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_72'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 108 registers, 356 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_72'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 100 registers, 368 bytes cmem[0], 8 bytes cmem[2]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_70'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 108 registers, 356 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_70'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 100 registers, 368 bytes cmem[0], 8 bytes cmem[2]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_75'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 72 registers, 356 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_75'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 83 registers, 368 bytes cmem[0], 8 bytes cmem[2]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_80'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 72 registers, 356 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_80'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 100 registers, 368 bytes cmem[0], 8 bytes cmem[2]
+ptxas info    : 0 bytes gmem, 264 bytes cmem[3]
+ptxas info    : Compiling entry function '_Z25ethash_calculate_dag_itemj' for 'sm_86'
+ptxas info    : Function properties for _Z25ethash_calculate_dag_itemj
+    208 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 72 registers, 356 bytes cmem[0]
+ptxas info    : Compiling entry function '_Z13ethash_searchP14Search_resultsm' for 'sm_86'
+ptxas info    : Function properties for _Z13ethash_searchP14Search_resultsm
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 83 registers, 368 bytes cmem[0], 8 bytes cmem[2]
+[ 25%] Linking CXX static library libcuda.a
+[ 25%] Built target cuda
+[ 37%] Building CXX object CMakeFiles/cudahash.dir/test/main.cpp.o
+[ 50%] Building CXX object CMakeFiles/cudahash.dir/test/eth_tester.cpp.o
+[ 62%] Building CXX object CMakeFiles/cudahash.dir/test/nv_dev.cpp.o
+[ 75%] Linking CXX executable cudahash
+[ 75%] Built target cudahash
+[ 87%] Building C object getopt/CMakeFiles/getopt.dir/getopt.c.o
+[100%] Linking C static library libgetopt.a
+[100%] Built target getopt
